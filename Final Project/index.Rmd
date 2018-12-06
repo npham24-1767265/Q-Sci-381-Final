@@ -1,0 +1,78 @@
+---
+title: "Q Sci 381 Final Project"
+output:
+  html_document:
+    code_folding: hide
+author: Nam Pham, Linh Nguyen, Margaret Keenan, Rosario Guel
+date: 26 November 2018
+---
+
+```{r, include=FALSE}
+source('data_extraction.R')
+mean_winter <- as.numeric(year_data[1, 2])
+std_dev_winter <- as.numeric(year_data[1, 3])
+```
+
+
+## 1st quarter (Jan, Feb, Mar) histogram
+```{r, echo = FALSE, warning = FALSE}
+plot_hist(quarter_data, 1)
+```
+
+## 2nd quarter (Apr, May, Jun) histogram
+```{r, echo = FALSE, warning = FALSE}
+plot_hist(quarter_data, 2)
+```
+
+## 3rd quarter (Jul, Aug, Sep) histogram
+```{r, echo = FALSE, warning = FALSE}
+plot_hist(quarter_data, 3)
+```
+
+## 4th quarter (Oct, Nov, Dec) histogram
+```{r, echo = FALSE, warning = FALSE}
+plot_hist(quarter_data, 4)
+```
+
+## Interleaved histogram
+```{r, echo=FALSE}
+plot_hist_interleaved(quarter_data)
+```
+
+## Hypothesis Testing
+
+We want to figure out if the quarter a movie is released has any bearings on its gross revenue. In order to do this, we compiled data of 38 years, 100 movies each year into a dataframe, we then divide each year into four quarter based on the opening date. We then proceed to calculate the mean, median, variance, and standard deviation of each quarter, and calculate the 95% confidence interval for each quarter of each year. This can be found in "quarter_data.csv". 
+
+The hypothesis we want to test is for example would be:
+Would movies that are release in winter (1st quarter) account for less than or equal to 25% of that year's revenue. 
+
+In this case, H0 <= 0.25; Ha > 0.25.
+
+We would use a right-tailed test in this case. 
+
+We would then calculate the needed data:
+
+**Mean Winter**: `r mean_winter`
+
+**Hypothesized Value**: 0.25
+
+**Winter Standard Deviation**: `r std_dev_winter`
+
+**Winter Sample Size (# of quarters)**: 38
+
+**Significance Level (alpha)**: 0.05
+
+```{r, echo=FALSE} 
+z <- test_stat(mean_winter, 0.25, std_dev_winter, 38, 0.05)
+```
+
+=>>> **Z-statistic** : `r z`
+
+```{r, echo=FALSE} 
+pvalue <- pnorm(z, lower.tail=FALSE) 
+```
+
+=> calculated p-value is `r pvalue` > 0.05 we do not reject the null hypothesis.
+
+
+
